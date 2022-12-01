@@ -1,0 +1,124 @@
+.signIn-btn {
+    color: grey;
+    background-color: white !important;
+
+    border: none;
+}
+
+.btn-check:checked+.btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check)+.btn:active {
+    color: grey
+}
+
+.signIn-btn.btn {
+    padding-left: 0rem;
+    padding-right: 0rem;
+}
+
+.navbar-nav a.nav-link,
+.navbar-nav div.dropdown .btn:hover {
+    transition: all .4s ease-in-out;
+}
+
+.navbar-nav a.nav-link:hover,
+.navbar-nav div.dropdown .btn:hover {
+    color: black;
+}
+
+.social-signIn .btn {
+    color: #0d1216;
+    transition: all .15s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    column-gap: .5rem;
+    text-align: left;
+    /* background: white; */
+
+
+}
+
+/* .social-signIn button:hover {
+    background-color: red;
+} */
+
+.social-logo {
+    width: 1.5rem;
+
+}
+
+footer {
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.body {
+    height: 50rem;
+}
+
+.pride {
+    width: 5rem;
+}
+
+.logout,
+.login {
+    margin: 20px 0;
+}
+
+h1 {
+    margin: 7rem auto 0 auto;
+    width: 9rem;
+}
+
+.login-overlay {
+    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .3)), url('../Imgs/shop.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50rem;
+}
+
+.signIn {
+    width: 30rem;
+    border-radius: 2rem;
+    background: red;
+    padding: 2rem 2rem;
+    background: #F5F5F5;
+    margin-top: 7rem;
+}
+
+.signIn .btn-light {
+    width: 15rem;
+    margin: auto;
+    transition: all .6s ease-in-out;
+    background-color: white !important;
+}
+
+.signIn .btn-light:hover {
+    background-color: #d3d3d3 !important;
+}
+
+.cta-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.cta:visited,
+.cta {
+    width: 5rem;
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+}
