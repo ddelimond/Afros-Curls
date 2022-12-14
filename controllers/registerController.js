@@ -2,7 +2,8 @@ const User = require('../models/Users')
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt');
-const saltRounds = 9
+const flash = require('express-flash')
+const saltRounds = 10
 
 
 
@@ -11,32 +12,34 @@ module.exports = {
     register: (req, res) => {
         res.render('register', { layout: 'noNavMenu' })
     },
-    registerUser: async (req, res) => {
+    registerUser: async (req, res, next) => {
 
         const firstname = req.body.firstname
         const lastname = req.body.lastname
         const email = req.body.email
         let password = req.body.password
 
-        // prevents users from having duplicate emails
-        // const duplicateUser = await User.findOne({ email })
-        // if (duplicateUser) { console.logll(` ${email} is already being used, please enter a new email`); res.sendStatus(409) }
-
         try {
 
             // salt and hash passwor
 
-            password = await bcrypt.hash(password, saltRounds)
+            // prevents users from having duplicate emails
+            const duplicateUser = await User.findOne({ email })
+            if (duplicateUser) {
+                throw console.error(` ${email} is already being used`, 409)
+            } else {
+                password = await bcrypt.hash(password, saltRounds)
 
-            const result = await User.create({
-                firstname,
-                lastname,
-                email,
-                password
-            })
-            console.log(result)
-            console.log('User was created')
-            res.redirect('/register')
+                const newUser = await User.create({
+                    firstname,
+                    lastname,
+                    email,
+                    password
+                })
+                req.flash('info', 'User was created')
+                res.redirect('/register')
+            }
+
         }
         catch (err) {
             console.log(err)
