@@ -13,7 +13,22 @@ const customFields = {
 }
 
 const verify = (email, password, done) => {
+    UserDb.findOne({ email: email }, async (err, result) => {
+        if (result === null) {
+            console.log('User does not exist')
+        } else {
+            if (result) {
+                await bcrypt.compare(password, result.password, (err, result) => {
+                    if (result) {
 
+                        console.log('Login Successful')
+                    } else {
+                        console.log('Wrong Password')
+                    }
+                })
+            }
+        }
+    })
 }
 
 passport.use(
