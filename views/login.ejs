@@ -1,0 +1,50 @@
+<%- include('./partials/header_no_nav')%>
+    <section class="body">
+        <section class="login-overlay">
+            <div class="signIn">
+                <% include('./partials/messages')%>
+                    <form action="/login" method="post" class="px-4 py-3">
+                        <div class="mb-3">
+                            <label for="LoginEmail1" class="form-label">Email address</label>
+                            <input type="email" name="email" class="form-control" id="LoginEmail"
+                                placeholder="email@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="LoginPassword" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="LoginPassword"
+                                placeholder="Password">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                <label class="form-check-label" for="dropdownCheck">
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </form>
+                    <div class=" social-signIn d-grid gap-2  mx-auto">
+                        <button class="btn btn-light" type="button">
+                            <img src="/Imgs/google.png" class="social-logo" alt="Google logo">Continue
+                            with
+                            Google
+                        </button>
+                        <button class="btn btn-light" type="button">
+                            <img src="/Imgs/facebook.png" class="social-logo" alt="Google logo">Continue
+                            with
+                            Facebook
+                        </button>
+                    </div>
+                    <div class="cta-container">
+                        <a class="cta" href="/register">Sign Up</a>
+                        <a class="cta" href="!#">Forgot password?</a>
+                    </div>
+
+            </div>
+            </div>
+        </section>
+    </section>
+
+
+    <%- include('./partials/footer')%>

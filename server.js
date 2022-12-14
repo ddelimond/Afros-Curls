@@ -11,15 +11,18 @@ require('dotenv').config({ path: './config.env' })
 const port = process.env.port || 8000
 const morgan = require('morgan')
 const moment = require('moment')
-const exphbs = require('express-handlebars')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const passport = require('passport')
 const connect2Db = require('./config/connectdb')
-const flash = require('express-flash')
-
+const flash = require('connect-flash')
 const mongoURI = process.env.Connect2Db
+const User = require('./models/Users');
+const Users = require('./models/Users');
 
+
+// passport config
+require('./config/passport')(passport)
 
 
 
@@ -29,12 +32,11 @@ connect2Db()
 
 // middleware
 
-// setting up handelbars to use .hbs and have a default layout of main
-app.engine('.hbs', exphbs.engine({
-    extname: '.hbs',
-    defaultLayout: 'main',
-}));
-app.set('view engine', '.hbs')
+// setting view to use ejs
+app.set('view engine', 'ejs')
+// app.set('views', [path.join(__dirname, 'views'),
+// path.join(__dirname, 'views/signedIn/'),
+// path.join(__dirname, 'views/signedOut/')])
 
 // tells server to look in the public folder for all static files that are placed in there.
 app.use(express.static('public'))
@@ -44,14 +46,6 @@ app.use(express.static('public'))
 app.use(express.json())
 // a body parser for html post request , only for forms
 app.use(express.urlencoded({ extended: true }))
-app.use(flash())
-
-
-// const sessionStore = MongoStore.create({
-//     mongooseConnection: mongoose.connection,
-//     document: 'mySessions'
-
-// })
 
 app.use(session({
     secret: process.env.secret,
@@ -65,8 +59,25 @@ app.use(session({
         maxAge: 10800000
     }
 }))
+// authenticate the session
+app.use(passport.authenticate('session'));
 
 
+// flash alerts
+app.use(flash());
+
+
+// global variables for the different color alerts
+// Global variables
+app.use(function (req, res, next) {
+    res.locals.successMsg = req.flash('successMsg');
+    res.locals.errorMsg = req.flash('errorMsg');
+    res.locals.error = req.flash('error');
+    next();
+});
+
+
+// Auth Routing 
 
 const isAuth = (req, res, next) => {
 
@@ -78,17 +89,23 @@ const isAuth = (req, res, next) => {
 }
 
 
+
+
 require('./config/passport')
-// app.use(passport.initialize())
-// app.use(passport.session())
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 
 // routes
 app.use('/', require('./routes/home'))
+app.use('/stylist', require('./routes/stylist'))
+app.use('/about', require('./routes/about'))
 app.use('/login', require('./routes/login'))
 app.use('/register', require('./routes/register'))
-app.use('/dashboard', isAuth, require('./routes/dashboard'))
+app.use('/dashboard', require('./routes/dashboard'))
+app.use('/logout', require('./routes/logout'))
+app.use('/lookbook', require('./routes/lookbook'))
 
 
 

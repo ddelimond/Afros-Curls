@@ -2,7 +2,7 @@ const User = require('../models/Users')
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt');
-const flash = require('express-flash')
+const flash = require('connect-flash')
 const saltRounds = 10
 
 
@@ -10,14 +10,13 @@ const saltRounds = 10
 
 module.exports = {
     register: (req, res) => {
-        res.render('register', { layout: 'noNavMenu' })
+        res.render('register')
     },
-    registerUser: async (req, res, next) => {
+    registerUser: async (req, res) => {
 
-        const firstname = req.body.firstname
-        const lastname = req.body.lastname
-        const email = req.body.email
-        let password = req.body.password
+        let errors = []
+
+        let { firstname, lastname, email, password } = req.body
 
         try {
 
@@ -26,24 +25,38 @@ module.exports = {
             // prevents users from having duplicate emails
             const duplicateUser = await User.findOne({ email })
             if (duplicateUser) {
-                throw console.error(` ${email} is already being used`, 409)
+                errors.push({ msg: `Email is already registered` })
+            }
+            if (password.length < 8) {
+                errors.push({ msg: `Password must be at least 8 characters` })
+            }
+
+            if (errors.length > 0) {
+                res.render('register', {
+                    errors,
+                    firstname,
+                    lastname,
+                    email,
+                    password
+
+                })
             } else {
                 password = await bcrypt.hash(password, saltRounds)
 
-                const newUser = await User.create({
+                let newUser = User.create({
                     firstname,
                     lastname,
                     email,
                     password
                 })
-                req.flash('info', 'User was created')
-                res.redirect('/register')
+
+
+                req.flash('successMgs', `User Created`)
+                res.redirect('/login')
             }
 
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err)
-            res.redirect('/register')
         }
     }
 }

@@ -1,58 +1,51 @@
 
 const express = require('express');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt');
-const UserDb = require('../models/Users');
+const User = require('../models/Users');
+const { use } = require('passport');
 
-const strategy = new LocalStrategy;
 
-const customFields = {
-    usernameField: 'email',
-    passwordField: 'password'
-}
 
-const verify = (email, password, done) => {
-    UserDb.findOne({ email: email }, async (err, result) => {
-        if (result === null) {
-            console.log('User does not exist')
-        } else {
-            if (result) {
-                await bcrypt.compare(password, result.password, (err, result) => {
-                    if (result) {
+module.exports = function (passport) {
+    passport.use(
 
-                        console.log('Login Successful')
-                    } else {
-                        console.log('Wrong Password')
+        new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+            User.findOne({ email: email })
+                .then(user => {
+                    if (!user) {
+                        return done(null, false, { message: 'That email has not be registered' })
                     }
-                })
-            }
-        }
-    })
-}
 
-passport.use(
-    new LocalStrategy(function verify(email, password, done) {
-
-        UserDb.findOne({ email: email }, async (err, result) => {
-            if (result === null) {
-                console.log('User does not exist')
-            } else {
-                if (result) {
-                    await bcrypt.compare(password, result.password, (err, result) => {
-                        if (result) {
-
-                            console.log('Login Successful')
+                    bcrypt.compare(password, user.password, (err, isMatch) => {
+                        if (err) {
+                            return done(err, false)
+                        }
+                        if (isMatch) {
+                            return done(null, user)
                         } else {
-                            console.log('Wrong Password')
+                            return done(err, false, { message: 'Incorrect Password' })
                         }
                     })
-                }
-            }
+                })
+                .catch(err => console.log(err))
         })
 
+    )
+}
+
+
+passport.serializeUser((user, done) => {
+    done(null, user._id)
+});
+
+passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+        done(err, user)
     })
-)
+});
 
 
 
@@ -72,102 +65,116 @@ passport.use(
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const mongoose = require('mongoose')
-// const passport = require('passport')
-// const localStrategy = require('passport-local').Strategy
-// const User = mongoose.models.Users
-
-// // field in the form that passport will look for and  user when the form is submitted 
-
-// const customFeilds = {
-//     usernameField: 'username',
+// const customFields = {
+//     usernameField: 'email',
 //     passwordField: 'password'
 // }
 
-// // the verify callback that will be used in the  strategy 
-// const verifyCb = (username, password, done) => {
-
-//     // go to user Db and find a user with the specified username 
-//     User.findOne({ username: username })
+// const verify = async (email, password, done) => {
+//     UserDb.findOne({ email: email })
 //         .then((user) => {
 
-//             // if there is not a user with the specified username then reject the user
-//             if (!user) { return done(null, false) }
+//             if (!user) {
+//                 console.log(`User does not exist!`);
+//                 return done(null, false)
+//             }
 
-//             // function that defines a valid password
-//             const isValid = validPassword(password, user.hash, user.salt);
+//             let compare = bcrypt.compare(password, user.password, (err, result) => {
 
-//             if (isValid) { return done(null, user) }
-//             else { return done(null, false) }
+//                 if (result) {
+//                     console.log(`Login Successful`)
+//                     return done(null, user);
+//                 } else {
+//                     console.log('Wrong Password')
+//                     return done(null, false);
+//                 }
+//             });
 //         })
 //         .catch((err) => {
 //             done(err)
 //         })
-
 // }
 
-// // define the strategy that you want to use
-// const strategy = new localStrategy(customFeilds, verifyCb)
+
+// const strategy = new LocalStrategy(customFields, verify)
 
 // passport.use(strategy)
 
 
-
 // passport.serializeUser((user, done) => {
-//     done(null, user.id);
-// });
+//     done(null, user.id)
+// })
+
+// passport.deserializeUser((userId, done) => {
+//     UserDb.findById(userId)
+//         .then((user) => {
+//             done(null, user)
+//         })
+//         .catch(err => done(err))
+
+// })
 
 
-// passport.deserializeUser(function (user, cb) {
-//     process.nextTick(function () {
-//         return cb(null, user);
-//     });
-// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
