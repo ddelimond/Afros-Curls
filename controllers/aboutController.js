@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
 module.exports = (req, res) => {
-    res.render('/signedIn/about')
+    if (req.isAuthenticated()) {
+        res.render('/signedIn/about')
+    } else {
+        res.render('/signedOut/about')
+    }
+
 }

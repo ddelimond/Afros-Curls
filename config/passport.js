@@ -12,7 +12,7 @@ const { use } = require('passport');
 module.exports = function (passport) {
     passport.use(
 
-        new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+        new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
             User.findOne({ email: email })
                 .then(user => {
                     if (!user) {
