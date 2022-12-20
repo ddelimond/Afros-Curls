@@ -58,9 +58,9 @@ footer {
     right: 0px;
 }
 
-.body {
+/* .body {
     height: 50rem;
-}
+} */
 
 .pride {
     width: 5rem;
@@ -121,4 +121,102 @@ h1 {
     text-decoration: none;
     color: black;
     font-size: 1rem;
+}
+
+.image-container {
+    width: 60vw;
+}
+
+.image-container img {
+    width: 100%;
+}
+
+#layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 3rem;
+    margin: 3rem 0;
+}
+
+.booking-btn {
+    height: 5rem;
+    width: 12rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#best-styles img {
+    height: 600px;
+}
+
+#best-styles {
+    width: 30vw;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.caro-img-container img {
+    width: 100%;
+}
+
+.carousel-control-prev,
+.carousel-control-next,
+.carousel-caption h5,
+.carousel-caption p {
+    color: rgb(238, 212, 207);
+}
+
+
+.carousel-dark .carousel-indicators [data-bs-target] {
+    background-color: rgb(238, 212, 207);
+}
+
+.carousel-dark .carousel-control-next-icon,
+.carousel-dark .carousel-control-prev-icon {
+    filter: initial;
+    font-size: 3rem;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.gallery {
+    margin: 10rem 0;
+}
+
+.gallery-card img {
+    width: 100%;
+    border-radius: 3rem;
+}
+
+.gallery-card {
+    width: 25rem;
+    box-shadow: 0px 14px 21px 1px rgba(0, 0, 0, 0.53);
+    -webkit-box-shadow: 0px 14px 21px 1px rgba(0, 0, 0, 0.53);
+    -moz-box-shadow: 0px 14px 21px 1px rgba(0, 0, 0, 0.53);
+    border-radius: 3rem;
+    cursor: pointer;
+
+}
+
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.gallery h3 {
+    text-align: left;
+    margin-left: 10rem;
+    margin-bottom: 10rem;
 }

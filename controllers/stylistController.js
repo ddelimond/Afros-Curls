@@ -3,9 +3,9 @@
 
 module.exports = (req, res) => {
     if (req.isAuthenticated()) {
-        res.render('/signedIn/stylist')
+        res.render('signedIn/stylists')
     } else {
-        res.render('/signedOut/stylist')
+        res.render('signedOut/stylists')
     }
 
 }

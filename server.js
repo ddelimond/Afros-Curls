@@ -99,7 +99,8 @@ app.use(passport.session())
 
 // routes
 app.use('/', require('./routes/home'))
-app.use('/stylist', require('./routes/stylist'))
+app.use('/stylists', require('./routes/stylists'))
+app.use('/appointments', require('./routes/appointments'))
 app.use('/about', require('./routes/about'))
 app.use('/login', require('./routes/login'))
 app.use('/register', require('./routes/register'))

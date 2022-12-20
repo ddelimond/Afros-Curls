@@ -8,7 +8,12 @@ const session = require('express-session')
 
 module.exports = {
     goToLogInForm: (req, res) => {
-        res.render('login')
+        if (req.isAuthenticated()) {
+            res.redirect('/dashboard')
+        } else {
+            res.render('login')
+        }
+
     },
     logUserIn: (req, res, next) => {
         passport.authenticate('local', {
