@@ -159,9 +159,10 @@ h1 {
 
 #best-styles {
     width: 30vw;
-    margin: 3rem auto;
     border-radius: 5px;
-    background-color: rgb(238, 212, 207);
+    /* background-color: rgb(238, 212, 207); */
+    margin: 0 auto;
+    padding: 4rem 0;
 }
 
 .caro-img-container img {
@@ -177,7 +178,7 @@ h1 {
 
 
 .carousel-dark .carousel-indicators [data-bs-target] {
-    background-color: rgb(238, 212, 207);
+    /* background-color: rgb(238, 212, 207); */
 }
 
 .carousel-dark .carousel-control-next-icon,
@@ -193,9 +194,9 @@ h1 {
 }
 
 .gallery {
-    margin: 10rem 0;
+
     background-color: rgb(238, 212, 207);
-    padding-bottom: 3rem;
+    padding: 10rem 0;
 }
 
 .gallery-card img {
