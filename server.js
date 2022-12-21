@@ -107,6 +107,7 @@ app.use('/register', require('./routes/register'))
 app.use('/dashboard', require('./routes/dashboard'))
 app.use('/logout', require('./routes/logout'))
 app.use('/lookbook', require('./routes/lookbook'))
+app.use('/auth', require('./routes/auth'))
 
 
 
