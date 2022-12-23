@@ -23,7 +23,8 @@ const Users = require('./models/Users');
 
 // passport config
 require('./config/passport')(passport)
-
+// google auth config
+require('./config/googleAuth')(passport)
 
 
 // connect to Db!

@@ -178,7 +178,7 @@ h1 {
 
 
 .carousel-dark .carousel-indicators [data-bs-target] {
-    /* background-color: rgb(238, 212, 207); */
+    background-color: rgb(238, 212, 207);
 }
 
 .carousel-dark .carousel-control-next-icon,
