@@ -28,4 +28,4 @@ const googleUser = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('User', googleUser)
+module.exports = mongoose.model('GoogleUser', googleUser)
