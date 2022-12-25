@@ -14,23 +14,24 @@ module.exports = (passport) => {
 
             console.log(profile)
             const newUser = {
-                facebookID: profile.id,
-                firstName: profile.name.displayName,
-                lastName: profile.name.familyNam
+                facebookID: profile.id
+                // firstName: profile.name.displayName,
+                // lastName: profile.name.familyNam
 
             }
 
             try {
-                let user = facebookUser.findById({ facebookID: profile.id },
-                    async (err, user) => {
-                        if (user) {
-                            return done(null, user);
-                        } else {
-                            user = await facebookUser.create({ newUser })
-                        }
-                    });
+                let user = await facebookUser.findOne({ facebookID: profile.id })
+
+                if (user) {
+                    done(null, user)
+                } else {
+                    user = await facebookUser.create(newUser)
+                    console.log(user)
+                    done(null, user)
+                }
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         }
     ));
