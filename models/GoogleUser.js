@@ -11,11 +11,11 @@ const googleUser = mongoose.Schema({
         type: String,
         required: true
     },
-    firstname: {
+    firstName: {
         type: String,
         required: true
     },
-    lastname: {
+    lastName: {
         type: String,
         required: true
     },
@@ -28,4 +28,4 @@ const googleUser = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('GoogleUser', googleUser)
+module.exports = mongoose.model('googleUser', googleUser)

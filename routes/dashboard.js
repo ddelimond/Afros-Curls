@@ -8,15 +8,4 @@ const dashboardController = require('../controllers/dashboardController')
 router.get('/', dashboardController.goToDashboard)
 
 
-
-
-
-
-
-
-
-
-
-
-
 module.exports = router 

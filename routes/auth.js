@@ -1,3 +1,4 @@
+
 const epxress = require('express')
 const passport = require('passport')
 const router = epxress.Router()
@@ -15,6 +16,16 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
         res.redirect('/dashboard')
     }
 )
+router.get('/facebook',
+    passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/dashboard');
+    });
+
 
 
 

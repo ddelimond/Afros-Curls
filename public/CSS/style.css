@@ -109,6 +109,23 @@ h1 {
     background-color: #d3d3d3 !important;
 }
 
+.signIn .fb-login-button {
+    margin: auto;
+
+}
+
+.signIn .fb-button-main-element {
+    width: 15rem;
+    transition: all .6s ease-in-out;
+}
+
+
+
+.signIn .fb-button-main-element:hover {
+    background-color: green !important;
+
+}
+
 .cta-container {
     display: flex;
     flex-direction: row;

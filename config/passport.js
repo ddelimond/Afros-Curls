@@ -1,51 +1,50 @@
-
-const express = require('express');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport')
 const mongoose = require('mongoose')
-const bcrypt = require('bcrypt');
-const User = require('../models/Users');
-const { use } = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy
+const googleUser = require('../models/GoogleUser')
 
 
 
-module.exports = function (passport) {
+module.exports = passport => {
     passport.use(
+        new GoogleStrategy({ clientID: process.env.ClientID, clientSecret: process.env.ClientSecret, callbackURL: "/auth/google/callback" },
 
-        new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, (email, password, done) => {
-            User.findOne({ email: email })
-                .then(user => {
-                    if (!user) {
-                        return done(null, false, { message: 'That email has not be registered' })
+            async (accessToken, refreshToken, profile, done) => {
+                const newUser = {
+                    googleId: profile.id,
+                    displayName: profile.displayName,
+                    firstName: profile.name.givenName,
+                    lastName: profile.name.familyName,
+                    image: profile.photos[0].value,
+                }
+
+
+
+                try {
+                    let user = await googleUser.findOne({ googleId: profile.id })
+
+                    if (user) {
+                        done(null, user)
+                    } else {
+                        user = await googleUser.create(newUser)
+                        console.log(user)
+                        done(null, user)
                     }
-
-                    bcrypt.compare(password, user.password, (err, isMatch) => {
-                        if (err) {
-                            return done(err, false)
-                        }
-                        if (isMatch) {
-                            return done(null, user)
-                        } else {
-                            return done(err, false, { message: 'Incorrect Password' })
-                        }
-                    })
-                })
-                .catch(err => console.log(err))
-        })
-
+                } catch (err) {
+                    console.error(err)
+                }
+            }
+        )
     )
 }
 
-
 passport.serializeUser((user, done) => {
-    done(null, user._id)
-});
+    done(null, user.id)
+})
 
 passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        done(err, user)
-    })
-});
+    googleUser.findById(id, (err, user) => done(err, user))
+})
 
 
 
@@ -65,54 +64,55 @@ passport.deserializeUser((id, done) => {
 
 
 
-// const customFields = {
-//     usernameField: 'email',
-//     passwordField: 'password'
-// }
 
-// const verify = async (email, password, done) => {
-//     UserDb.findOne({ email: email })
-//         .then((user) => {
+// // const customFields = {
+// //     usernameField: 'email',
+// //     passwordField: 'password'
+// // }
 
-//             if (!user) {
-//                 console.log(`User does not exist!`);
-//                 return done(null, false)
-//             }
+// // const verify = async (email, password, done) => {
+// //     UserDb.findOne({ email: email })
+// //         .then((user) => {
 
-//             let compare = bcrypt.compare(password, user.password, (err, result) => {
+// //             if (!user) {
+// //                 console.log(`User does not exist!`);
+// //                 return done(null, false)
+// //             }
 
-//                 if (result) {
-//                     console.log(`Login Successful`)
-//                     return done(null, user);
-//                 } else {
-//                     console.log('Wrong Password')
-//                     return done(null, false);
-//                 }
-//             });
-//         })
-//         .catch((err) => {
-//             done(err)
-//         })
-// }
+// //             let compare = bcrypt.compare(password, user.password, (err, result) => {
 
-
-// const strategy = new LocalStrategy(customFields, verify)
-
-// passport.use(strategy)
+// //                 if (result) {
+// //                     console.log(`Login Successful`)
+// //                     return done(null, user);
+// //                 } else {
+// //                     console.log('Wrong Password')
+// //                     return done(null, false);
+// //                 }
+// //             });
+// //         })
+// //         .catch((err) => {
+// //             done(err)
+// //         })
+// // }
 
 
-// passport.serializeUser((user, done) => {
-//     done(null, user.id)
-// })
+// // const strategy = new LocalStrategy(customFields, verify)
 
-// passport.deserializeUser((userId, done) => {
-//     UserDb.findById(userId)
-//         .then((user) => {
-//             done(null, user)
-//         })
-//         .catch(err => done(err))
+// // passport.use(strategy)
 
-// })
+
+// // passport.serializeUser((user, done) => {
+// //     done(null, user.id)
+// // })
+
+// // passport.deserializeUser((userId, done) => {
+// //     UserDb.findById(userId)
+// //         .then((user) => {
+// //             done(null, user)
+// //         })
+// //         .catch(err => done(err))
+
+// // })
 
 
 

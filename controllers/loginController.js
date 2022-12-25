@@ -58,6 +58,9 @@ module.exports = {
 
 
 
+
+
+
 // Users.findOne({ email: req.body.email }, (err, result) => {
 
         //     if (result === null) { console.log('User does not exist') }

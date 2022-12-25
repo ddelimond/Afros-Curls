@@ -25,6 +25,8 @@ const Users = require('./models/Users');
 require('./config/passport')(passport)
 // google auth config
 require('./config/googleAuth')(passport)
+// facebook auth config
+require('./config/facbookAuth')(passport)
 
 
 // connect to Db!
@@ -115,4 +117,3 @@ app.use('/auth', require('./routes/auth'))
 app.listen(port, () => {
     console.log('Server running')
 })
-
