@@ -14,9 +14,9 @@ module.exports = (passport) => {
 
             console.log(profile)
             const newUser = {
-                facebookID: profile.id
-                // firstName: profile.name.displayName,
-                // lastName: profile.name.familyNam
+                facebookID: profile.id,
+                displayName: profile.displayName,
+
 
             }
 

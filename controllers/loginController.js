@@ -1,5 +1,5 @@
 const passport = require('passport')
-const Users = require('../models/Users');
+const User = require('../models/LocalUser');
 const bcrypt = require('bcrypt')
 const flash = require('connect-flash')
 const session = require('express-session')

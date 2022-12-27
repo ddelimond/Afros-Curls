@@ -9,24 +9,27 @@ const cors = require('cors')
 const path = require('path')
 require('dotenv').config({ path: './config.env' })
 const port = process.env.port || 8000
-const morgan = require('morgan')
 const moment = require('moment')
+const morgan = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const passport = require('passport')
 const connect2Db = require('./config/connectdb')
 const flash = require('connect-flash')
 const mongoURI = process.env.Connect2Db
-const User = require('./models/Users');
-const Users = require('./models/Users');
+const User = require('./models/LocalUser');
+
+
 
 
 // passport config
-require('./config/passport')(passport)
+require('./config/localAuth')(passport)
 // google auth config
 require('./config/googleAuth')(passport)
 // facebook auth config
 require('./config/facbookAuth')(passport)
+// microsoft auth config
+require('./config/microsoftAuth')(passport)
 
 
 // connect to Db!
@@ -37,9 +40,7 @@ connect2Db()
 
 // setting view to use ejs
 app.set('view engine', 'ejs')
-// app.set('views', [path.join(__dirname, 'views'),
-// path.join(__dirname, 'views/signedIn/'),
-// path.join(__dirname, 'views/signedOut/')])
+
 
 // tells server to look in the public folder for all static files that are placed in there.
 app.use(express.static('public'))
@@ -64,6 +65,11 @@ app.use(session({
 }))
 // authenticate the session
 app.use(passport.authenticate('session'));
+
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 
 // flash alerts
@@ -93,10 +99,6 @@ const isAuth = (req, res, next) => {
 
 
 
-
-require('./config/passport')
-app.use(passport.initialize())
-app.use(passport.session())
 
 
 

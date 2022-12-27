@@ -3,7 +3,9 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const stylistController = require('../controllers/stylistController')
 
-router.get('/', stylistController)
+router.get('/', stylistController.goToStylist)
+router.get('/microsoft_login', stylistController.goToStylistMS)
+
 
 
 

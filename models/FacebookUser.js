@@ -5,6 +5,9 @@ const facebookUser = mongoose.Schema({
         type: String,
 
     },
+    displayName: {
+        type: String,
+    },
     firstname: {
         type: String,
     },
