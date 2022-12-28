@@ -8,7 +8,7 @@ module.exports = (passport) => {
     passport.use(new FacebookStrategy({
         clientID: process.env.ClientID_FB,
         clientSecret: process.env.ClientSecret_FB,
-        callbackURL: "/auth/facebook/callback"
+        callbackURL: "https://afros-and-curls.onrender.com/auth/facebook/callback"
     },
         async function (accessToken, refreshToken, profile, done) {
 

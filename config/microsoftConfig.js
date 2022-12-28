@@ -9,7 +9,7 @@ exports.creds = {
 
     responseMode: 'form_post',
 
-    redirectUrl: 'http://localhost:8000/auth/microsoft/callback',
+    redirectUrl: 'https://afros-and-curls.onrender.com/auth/microsoft/callback',
 
     allowHttpForRedirectUrl: true,
 
@@ -37,7 +37,7 @@ exports.creds = {
     clockSkew: null,
 };
 
-exports.destroySessionUrl = 'http://localhost:8000';
+exports.destroySessionUrl = 'https://afros-and-curls.onrender.com';
 
 exports.useMongoDBSessionStore = false;
 
