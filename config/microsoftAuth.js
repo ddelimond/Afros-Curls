@@ -6,7 +6,7 @@ module.exports = (passport) => {
     passport.use(new MicrosoftStrategy({
         // Standard OAuth2 options
         clientID: process.env.ClientID_MS,
-        clientSecret: process.env.ClientSecret_MS,
+        clientSecret: process.env.ClientSecret_MS_Value,
         callbackURL: "https://afros-and-curls.onrender.com/auth/microsoft/callback",
         scope: ['user.read'],
 
