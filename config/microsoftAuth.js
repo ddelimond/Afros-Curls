@@ -25,22 +25,21 @@ module.exports = (passport) => {
         async (accessToken, refreshToken, profile, done) => {
             try {
                 console.log(profile)
-                let newuser = User.findOne({ microsoftId: profile.id })
-
-                if (newuser) {
-                    return done(err, user)
-                } else {
-                    newuser = await User.create(
-                        {
-                            microsoftId: profile.id,
-                            displayName: profile.displayName,
-                            firstName: profile.name.familyName,
-                            lastName: profile.name.givenName,
-                            email: profile.email[0].value,
-                        })
-                    return done(err, user)
-                }
-
+                User.findOne({ microsoftId: profile.id }, (err, user) => {
+                    if (user) {
+                        return done(err, user)
+                    } else {
+                        User.create(
+                            {
+                                microsoftId: profile.id,
+                                displayName: profile.displayName,
+                                firstName: profile.name.familyName,
+                                lastName: profile.name.givenName,
+                                email: profile.email[0].value,
+                            })
+                        return done(err, user)
+                    }
+                })
             } catch (err) {
                 console.error(err)
             }
