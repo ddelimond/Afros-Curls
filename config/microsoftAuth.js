@@ -25,8 +25,13 @@ module.exports = (passport) => {
         function (accessToken, refreshToken, profile, done) {
             console.log(profile)
             User.findOne({ userId: profile.id }, function (err, user) {
-                if (user) {
-                    return done(err, user);
+                if (err) {
+                    console.log(err)
+                    return done(null, true)
+                }
+
+                if (!user) {
+                    return done(null, false);
                 } else {
                     User.create({
                         microsoftId: profile.id,
@@ -35,7 +40,7 @@ module.exports = (passport) => {
                         lastName: profile.name.familyName,
                         email: profile.emails[0].value
                     })
-                    return done(err, user)
+                    return done(null, user)
                 }
 
             });
