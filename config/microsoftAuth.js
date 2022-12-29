@@ -1,6 +1,6 @@
 const MicrosoftStrategy = require('passport-microsoft').Strategy
 const mongoose = require('mongoose')
-let findOrCreate = require('mongoose-findorcreate')
+const findOrCreate = require('mongoose-findorcreate')
 const User = require('../models/MicrosoftUser')
 
 module.exports = (passport) => {
@@ -24,8 +24,20 @@ module.exports = (passport) => {
         tokenURL: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
     },
         function (accessToken, refreshToken, profile, done) {
-            User.findOrCreate({ userId: profile.id }, function (err, user) {
-                return done(err, user);
+            User.findOne({ userId: profile.id }, function (err, user) {
+                if (user) {
+                    done(err, user);
+                } else {
+                    User.create({
+                        microsoftId: profile.id,
+                        displayName: profile.displayName,
+                        firstName: profile.name.givenName,
+                        lastName: profile.name.familyName,
+                        email: profile.email[0].value
+                    })
+                    done(err, user)
+                }
+
             });
         }
     ));
