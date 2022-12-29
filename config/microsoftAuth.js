@@ -1,12 +1,11 @@
-
 const MicrosoftStrategy = require('passport-microsoft').Strategy
 const mongoose = require('mongoose')
 const User = require('../models/MicrosoftUser')
 
-module.exports = function (passport) {
+module.exports = (passport) => {
     passport.use(new MicrosoftStrategy({
         // Standard OAuth2 options
-        clientID: process.env.ClienID_MS,
+        clientID: process.env.ClientID_MS,
         clientSecret: process.env.ClientSecret_MS,
         callbackURL: "https://afros-and-curls.onrender.com/auth/microsoft/callback",
         scope: ['user.read'],

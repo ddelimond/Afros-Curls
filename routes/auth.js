@@ -2,7 +2,7 @@
 const epxress = require('express')
 const passport = require('passport')
 const router = epxress.Router()
-const config = require('../config/microsoftConfig')
+
 
 
 
