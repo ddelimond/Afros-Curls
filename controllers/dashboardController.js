@@ -1,5 +1,6 @@
 module.exports = {
     goToDashboard: (req, res) => {
+
         res.render('signedIn/dashboard')
     },
     goToDashboardMS: (req, res) => {

@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
 
-const facebookUser = mongoose.Schema({
-    facebookID: {
+const twitterUser = mongoose.Schema({
+    twitterId: {
         type: String,
-
+        required: true
     },
     displayName: {
         type: String,
     },
-    firstname: {
-        type: String,
-    },
-    lastname: {
+    username: {
         type: String,
     },
     image: {
@@ -23,4 +20,4 @@ const facebookUser = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('facebookUser', facebookUser)
+module.exports = mongoose.model('twitterUser', twitterUser)

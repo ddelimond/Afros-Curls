@@ -10,7 +10,6 @@ const path = require('path')
 require('dotenv').config({ path: './config.env' })
 const port = process.env.port || 8000
 const moment = require('moment')
-const morgan = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const passport = require('passport')
@@ -26,8 +25,8 @@ const User = require('./models/LocalUser');
 require('./config/localAuth')(passport)
 // google auth config
 require('./config/googleAuth')(passport)
-// facebook auth config
-require('./config/facbookAuth')(passport)
+// twitter auth config
+require('./config/twitterAuth')(passport)
 // microsoft auth config
 require('./config/microsoftAuth')(passport)
 

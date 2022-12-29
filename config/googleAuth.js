@@ -1,4 +1,4 @@
-const passport = require('passport')
+
 const mongoose = require('mongoose')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 const googleUser = require('../models/GoogleUser')
@@ -36,15 +36,16 @@ module.exports = passport => {
             }
         )
     )
+    passport.serializeUser((user, done) => {
+        done(null, user.id)
+    })
+
+    passport.deserializeUser((id, done) => {
+        googleUser.findById(id, (err, user) => done(err, user))
+    })
 }
 
-passport.serializeUser((user, done) => {
-    done(null, user.id)
-})
 
-passport.deserializeUser((id, done) => {
-    googleUser.findById(id, (err, user) => done(err, user))
-})
 
 
 

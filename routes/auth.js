@@ -12,16 +12,17 @@ router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
 // @desc  google with callback  
 // @route GET /auth/google/callback
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
+router.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => {
         res.redirect('/dashboard')
     }
 )
-router.get('/facebook',
-    passport.authenticate('facebook'));
+router.get('/twitter',
+    passport.authenticate('twitter'));
 
-router.get('/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
+router.get('/twitter/callback',
+    passport.authenticate('twitter', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
         res.redirect('/dashboard');
