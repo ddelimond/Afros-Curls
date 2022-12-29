@@ -30,18 +30,13 @@ router.get('/twitter/callback',
 
 
 router.get('/microsoft',
-    passport.authenticate('microsoft', {
-        // Optionally define any authentication parameters here
-        // For example, the ones in https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
-
-        prompt: 'select_account',
-    }));
+    passport.authenticate('microsoft'));
 
 router.get('/microsoft/callback',
     passport.authenticate('microsoft', { failureRedirect: '/login' }),
     function (req, res) {
         // Successful authentication, redirect home.
-        res.redirect('/');
+        res.redirect('/dashboard');
     });
 
 
