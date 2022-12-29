@@ -33,7 +33,7 @@ module.exports = (passport) => {
                         displayName: profile.displayName,
                         firstName: profile.name.givenName,
                         lastName: profile.name.familyName,
-                        email: profile.email[0].value
+                        email: profile.emails[0].value
                     })
                     done(err, user)
                 }
