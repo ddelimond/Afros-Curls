@@ -30,33 +30,18 @@ router.get('/twitter/callback',
 
 
 router.get('/microsoft',
-    (req, res, next) => {
-        passport.authenticate('azuread-openidconnect',
-            {
-                response: res,
-                resourceURL: config.resourceURL,
-                customState: 'my_state',
-                failureRedirect: '/login'
-            }
-        )(req, res, next);
-    },
-    (req, res) => {
-        console.log('Login was called in the Sample');
-        res.redirect('/dashboard');
-    });
+    passport.authenticate('microsoft', {
+        // Optionally define any authentication parameters here
+        // For example, the ones in https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
 
-router.post('/microsoft/callback',
-    (req, res, next) => {
-        passport.authenticate('azuread-openidconnect',
-            {
-                response: res,
-                failureRedirect: '/login'
-            }
-        )(req, res, next);
-    },
-    (req, res) => {
-        console.log('We received a return from AzureAD.');
-        res.redirect('/dashboard');
+        prompt: 'select_account',
+    }));
+
+router.get('/microsoft/callback',
+    passport.authenticate('microsoft', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
     });
 
 

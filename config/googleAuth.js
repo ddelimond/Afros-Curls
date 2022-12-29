@@ -24,11 +24,11 @@ module.exports = passport => {
                     let user = await googleUser.findOne({ googleId: profile.id })
 
                     if (user) {
-                        done(null, user)
+                        return done(null, user)
                     } else {
                         user = await googleUser.create(newUser)
                         console.log(user)
-                        done(null, user)
+                        return done(null, user)
                     }
                 } catch (err) {
                     console.error(err)

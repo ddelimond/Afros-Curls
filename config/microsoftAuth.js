@@ -1,54 +1,45 @@
 
-const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
+const MicrosoftStrategy = require('passport-microsoft').Strategy
 const mongoose = require('mongoose')
-const config = require('../config/microsoftConfig')
 const User = require('../models/MicrosoftUser')
 
 module.exports = function (passport) {
-    passport.use(
-        new OIDCStrategy({
-            identityMetadata: config.creds.identityMetadata,
-            clientID: config.creds.clientID,
-            responseType: config.creds.responseType,
-            responseMode: config.creds.responseMode,
-            redirectUrl: config.creds.redirectUrl,
-            allowHttpForRedirectUrl: config.creds.allowHttpForRedirectUrl,
-            clientSecret: config.creds.clientSecret,
-            validateIssuer: config.creds.validateIssuer,
-            isB2C: config.creds.isB2C,
-            issuer: config.creds.issuer,
-            passReqToCallback: config.creds.passReqToCallback,
-            scope: config.creds.scope,
-            loggingLevel: config.creds.loggingLevel,
-            nonceLifetime: config.creds.nonceLifetime,
-            nonceMaxAmount: config.creds.nonceMaxAmount,
-            useCookieInsteadOfSession: config.creds.useCookieInsteadOfSession,
-            cookieEncryptionKeys: config.creds.cookieEncryptionKeys,
-            clockSkew: config.creds.clockSkew,
-        },
-            async (accessToken, refreshToken, profile, done) => {
-                console.log('auth: ', profile)
-                const newUser = {
-                    microsoftId: profile.oid,
-                    displayName: profile.displayName,
+    passport.use(new MicrosoftStrategy({
+        // Standard OAuth2 options
+        clientID: process.env.ClienID_MS,
+        clientSecret: process.env.ClientSecret_MS,
+        callbackURL: "https://afros-and-curls.onrender.com/auth/microsoft/callback",
+        scope: ['user.read'],
+
+        // Microsoft specific options
+
+        // [Optional] The tenant for the application. Defaults to 'common'. 
+        // Used to construct the authorizationURL and tokenURL
+        tenant: 'common',
+
+        // [Optional] The authorization URL. Defaults to `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/authorize`
+        authorizationURL: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+
+        // [Optional] The token URL. Defaults to `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/token`
+        tokenURL: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+    },
+        async (accessToken, refreshToken, profile, done) => {
+            try {
+                console.log(profile)
+                let user = User.findOne({ microsoftId: profile.id })
+
+                if (user) {
+                    return done(null, user)
+                } else {
+                    user = await User.create({ microsoftId: profile.id, displayName: profile.displayName })
+                    return done(null, user)
                 }
 
-                try {
-                    console.log(profile)
-                    let user = await User.findOne({ microsoftId: profile.oid })
-
-                    if (user) {
-                        done(null, user)
-                    } else {
-                        user = await User.create(newUser)
-                        done(null, user)
-                    }
-                } catch (err) {
-                    console.log(err)
-                }
+            } catch (err) {
+                console.error(err)
             }
-        )
-    )
+        }
+    ));
 
     passport.serializeUser((user, done) => {
         done(null, user.id)
