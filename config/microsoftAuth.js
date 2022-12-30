@@ -22,15 +22,15 @@ module.exports = (passport) => {
         // [Optional] The token URL. Defaults to `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/token`
         tokenURL: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
     },
-        function (accessToken, refreshToken, profile, done) {
-            let user = User.findOne({ userId: profile.id }, function (err, user) {
+        async function (accessToken, refreshToken, profile, done) {
+            let user = await User.findOne({ userId: profile.id }, async function (err, user) {
                 if (err) {
                     console.log(err)
                     return done(null, true)
                 }
 
                 if (!user) {
-                    user = User.create({
+                    user = await User.create({
                         microsoftId: profile.id,
                         displayName: profile.displayName,
                         firstName: profile.name.givenName,
@@ -39,7 +39,7 @@ module.exports = (passport) => {
                     })
                     console.log(`created 
                     ${user}`)
-                    return done(null, false);
+                    return done(null, user);
                 } else {
                     console.log(user)
                     return done(null, user)
