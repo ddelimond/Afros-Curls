@@ -24,25 +24,27 @@ module.exports = (passport) => {
     },
         function (accessToken, refreshToken, profile, done) {
             console.log(profile)
-            User.findOne({ userId: profile.id }, function (err, user) {
+            let user = User.findOne({ userId: profile.id }, function (err, user) {
                 if (err) {
                     console.log(err)
                     return done(null, true)
                 }
 
                 if (!user) {
-                    User.create({
+                    user = User.create({
                         microsoftId: profile.id,
                         displayName: profile.displayName,
                         firstName: profile.name.givenName,
                         lastName: profile.name.familyName,
                         email: profile.emails[0].value
                     })
+                    console.log(`created 
+                    ${user}`)
                     return done(null, false);
                 } else {
+                    console.log(user)
                     return done(null, user)
                 }
-
             });
         }
     ));
