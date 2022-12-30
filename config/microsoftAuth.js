@@ -31,8 +31,6 @@ module.exports = (passport) => {
                 }
 
                 if (!user) {
-                    return done(null, false);
-                } else {
                     User.create({
                         microsoftId: profile.id,
                         displayName: profile.displayName,
@@ -40,6 +38,8 @@ module.exports = (passport) => {
                         lastName: profile.name.familyName,
                         email: profile.emails[0].value
                     })
+                    return done(null, false);
+                } else {
                     return done(null, user)
                 }
 
