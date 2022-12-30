@@ -26,7 +26,7 @@ module.exports = (passport) => {
             try {
                 let user = await User.findOne({ userId: profile.id })
                 if (!user) {
-                    User.create({
+                    user = await User.create({
                         microsoftId: profile.id,
                         displayName: profile.displayName,
                         firstName: profile.name.givenName,
