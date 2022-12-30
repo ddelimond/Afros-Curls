@@ -23,7 +23,6 @@ module.exports = (passport) => {
         tokenURL: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
     },
         function (accessToken, refreshToken, profile, done) {
-            console.log(profile)
             let user = User.findOne({ userId: profile.id }, function (err, user) {
                 if (err) {
                     console.log(err)
