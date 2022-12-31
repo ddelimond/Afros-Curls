@@ -8,15 +8,15 @@ const FacebookUser = new mongoose.Schema({
 
     displayName: {
         type: String,
-        required: true,
+
     },
     firstName: {
         type: String,
-        required: true
+
     },
     lastName: {
         type: String,
-        required: true
+
     },
     createdAt: {
         type: Date,
