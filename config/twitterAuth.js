@@ -8,7 +8,7 @@ module.exports = (passport) => {
     passport.use(new TwitterStrategy({
         consumerKey: process.env.TwitterAPIKey,
         consumerSecret: process.env.TwitterAPISecret,
-        callbackURL: "https://afros-and-curls.onrender.com/auth/twitter/callback"
+        callbackURL: "http://localhost:8000/auth/twitter/callback"
     },
         async (token, tokenSecret, profile, done) => {
             try {
