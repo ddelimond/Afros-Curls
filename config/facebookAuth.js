@@ -11,7 +11,7 @@ module.exports = (passport) => {
     },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                let user = User.findOne({ facebookId: profile.id })
+                let user = await User.findOne({ facebookId: profile.id })
                 if (!user) {
                     user = await User.create({ facebookId: profile.id, firstname: profile.givenName, lastName: profile.familyName })
                     return done(null, user)
