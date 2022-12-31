@@ -24,6 +24,7 @@ module.exports = (passport) => {
         callbackURL: "https://afros-and-curls.onrender.com/auth/facebook/callback"
     },
         async (accessToken, refreshToken, profile, done) => {
+            console.log(profile)
             try {
                 let user = await User.findOne({ facebookId: profile.id })
                 if (!user) {
