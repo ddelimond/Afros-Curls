@@ -34,10 +34,10 @@ module.exports = (passport) => {
                         email: profile.emails[0].value
                     })
                     console.log(`created ${user}`)
-                    return done(null, profile);
+                    return done(null, user);
                 } else {
                     console.log(user)
-                    return done(null, profile)
+                    return done(null, user)
                 }
             } catch (err) {
                 console.log(err)

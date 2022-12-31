@@ -39,6 +39,16 @@ router.get('/microsoft/callback',
         res.redirect('/dashboard');
     });
 
+router.get('/facebook',
+    passport.authenticate('facebook'));
+
+router.get('/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/dashboard');
+    });
+
 
 
 
