@@ -40,15 +40,15 @@ router.get('/microsoft/callback',
     });
 
 router.get('/facebook',
-    passport.authenticate('facebook'));
+    passport.authenticate('facebook', { scope: [profile] }));
 
-router.get('/facebook/callback',
-    passport.authenticate('facebook', {
+router.get(
+    "/facebook/callback",
+    passport.authenticate("facebook", {
         successRedirect: '/dashboard',
-        failureRdirect: '/login',
-
-    }))
-
+        failureRedirect: "/login"
+    })
+);
 
 
 
