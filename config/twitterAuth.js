@@ -1,4 +1,4 @@
-const twitterUser = require('../models/TwitterUser')
+const User = require('../models/TwitterUser')
 const TwitterStrategy = require('passport-twitter').Strategy
 const mongoose = require('mongoose')
 const passport = require('passport')
@@ -13,9 +13,21 @@ module.exports = (passport) => {
         async (token, tokenSecret, profile, done) => {
             try {
                 console.log(profile)
-                let user = twitterUser.findOne({ twitterId: profile.id }, (err, user) => {
+                let user = await User.findOne({ twitterId: profile.id }, (err, user) => {
                     return done(err, user)
                 });
+
+                if (use) {
+                    return done(null, user)
+                } else {
+                    user = await User.create({
+                        twitterId: profile.id,
+                        displayName: profile.displayName,
+                        userName: profile.username,
+                        image: profile.photos[0].value,
+                    })
+                    return done(null, user)
+                }
             } catch (err) {
                 console.log(err)
             }

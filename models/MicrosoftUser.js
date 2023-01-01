@@ -8,7 +8,6 @@ const MicrosoftUser = new mongoose.Schema({
 
     displayName: {
         type: String,
-        required: true,
     },
     firstName: {
         type: String,
@@ -16,7 +15,7 @@ const MicrosoftUser = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        required: true
+
     },
     email: {
         type: String,

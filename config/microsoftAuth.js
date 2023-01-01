@@ -33,7 +33,6 @@ module.exports = (passport) => {
                         lastName: profile.name.familyName,
                         email: profile.emails[0].value
                     })
-                    console.log(`created ${user}`)
                     return done(null, user);
                 } else {
                     console.log(user)
@@ -45,5 +44,13 @@ module.exports = (passport) => {
             }
 
         }
+
     ));
+    passport.serializeUser(function (user, done) {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(function (user, done) {
+        User.findById(id, (err, user) => done(err, user))
+    });
 }

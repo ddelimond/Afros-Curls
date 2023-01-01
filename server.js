@@ -30,7 +30,7 @@ require('./config/twitterAuth')(passport)
 // microsoft auth config
 require('./config/microsoftAuth')(passport)
 // facebook auth config
-require('./config/facebookAuth')(passport)
+// require('./config/facebookAuth')(passport)
 
 
 // connect to Db!
